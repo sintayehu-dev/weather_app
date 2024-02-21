@@ -34,5 +34,63 @@
              </div>
         </div>
     </div>
+
+    <script>
+        const apiKey = "c6443c6ee3cdb318916e31a8de239b59";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+        const searchbox=document.querySelector('.search input');
+        const searchbtn=document.querySelector('.search button');
+        const weather_icon=document.querySelector('.weather-icon')
+    
+        async function checkWeather(city) {
+            const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
+            var data = await response.json();
+            document.querySelector('.city').innerHTML = data.name;
+            document.querySelector('.temp').innerHTML = Math.round(data.main.temp) + '°C';
+            document.querySelector('.humidity').innerHTML = data.main.humidity;
+            document.querySelector('.wind').innerHTML = data.wind.speed + ' km/hr';
+
+            if(data.weather[0].main=='Clouds'){
+                weather_icon.src="images/clouds.png";
+            }
+            
+            else if(data.weather[0].main=='Clear'){
+                weather_icon.src="images/clear.png";
+            }
+            else if(data.weather[0].main=='Drizzle'){
+                weather_icon.src="images/drizzle.png";
+            }
+            else if(data.weather[0].main=='Humidty'){
+                weather_icon.src="images/humidty.png";
+            }
+            else if(data.weather[0].main=='Rain'){
+                weather_icon.src="images/rain.png";
+            }
+            else if(data.weather[0].main=='Mist'){
+                weather_icon.src="images/mist.png";
+            }
+
+           
+            
+        }
+    
+        searchbtn.addEventListener('click', ()=>{
+            checkWeather(searchbox.value); 
+
+        })
+        searchbox.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                checkWeather(searchbox.value);
+                event.preventDefault(); 
+                console.log("press")
+            }
+        });
+        
+        
+    </script>
+    
+    
+
+
 </body>
 </html>
